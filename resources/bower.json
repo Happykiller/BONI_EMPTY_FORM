@@ -1,0 +1,17 @@
+{
+	"name": "EmptyForm",
+	"version": "0.0.1",
+	"homepage": "https://github.com/Happykiller/ODA_FW_CLIENT",
+	"authors": ["Fabrice Rosito <fabrice.rosito@gmail.com>"],
+	"description": "Empty formm with Oda",
+	"keywords": ["bonitasoft"],
+	"license": "MIT",
+	"private": true,
+	"ignore": [
+		"**/.*",
+		"node_modules"
+	],
+	"dependencies": {
+	  "Oda" : "*"
+	}
+}

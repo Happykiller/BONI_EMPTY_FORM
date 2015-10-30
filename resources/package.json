@@ -1,0 +1,19 @@
+{
+	"name": "EmptyForm",
+	"version": "0.0.1",
+	"description": "Empty formm with Oda",
+	"main": "gulpfile.js",
+	"license": "MIT",
+  "dependencies": {
+    "gulp": "*",
+    "gulp-bower": "*",
+    "gulp-connect": "*",
+    "gulp-jshint": "*",
+    "gulp-open": "*",
+    "gulp-plumber": "*",
+    "gulp-uglify": "*",
+    "gulp-rename": "*",
+    "gulp-replace" : "*",
+    "gulp-param" : "*"
+  }
+}
