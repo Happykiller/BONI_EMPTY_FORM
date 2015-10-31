@@ -1,6 +1,43 @@
 <div class="container">
     <h2 oda-label="home.title"></h2>
 
+    <div class="row" style="text-align: center;">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="select1">select1</label>
+                <select class="form-control" oda-input-select="select1" required>
+                    <option value="" oda-label="oda-main.select-default"></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="select2">select2</label>
+                <select class="form-control" oda-input-select="select2" required>
+                    <option value="" oda-label="oda-main.select-default"></option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="select3">select3</label>
+                <select class="form-control" oda-input-select="select3" required>
+                    <option value="" oda-label="oda-main.select-default"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <span id="echo"></span>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="$.Oda.App.Controler.Home.submitTask();" class="btn btn-primary disabled" disabled>Submit</button >
