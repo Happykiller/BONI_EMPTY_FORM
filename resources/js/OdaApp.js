@@ -20,6 +20,10 @@
      * @desc Initialize
      */
     function _init() {
+        $.Oda.Context.host = $.Oda.Context.window.location.origin + '/';
+        $.Oda.Context.rest = $.Oda.Context.host + $.Oda.Context.appBonitaName;
+        $.Oda.Context.resources = $.Oda.Context.host+"resources/";
+
         $.Oda.Context.modeInterface = ["ajax","mokup"];
 
         $.Oda.Event.addListener({name : "oda-fully-loaded", callback : function(e){
@@ -77,6 +81,63 @@
             } catch (er) {
                 $.Oda.Log.error("$.Oda.App.startApp : " + er.message);
                 return null;
+            }
+        },
+
+        BonitaBPM : {
+            /**
+             * @returns {$.Oda.App.BonitaBPM}
+             */
+            submitTask : function () {
+                try {
+                    var url = $.Oda.Context.rest+"API/bpm/userTask/"+$.Oda.App.Controler.taskId+"/execution";
+                    var call = $.Oda.Interface.callRest(url, {
+                        type : 'POST',
+                        contentType: "application/json",
+                        functionRetour : function(response){
+                            $.Oda.App.BonitaBPM.goNextTask();
+                        }
+                    }, JSON.stringify($.Oda.App.Controler.formOutput));
+                    return this;
+                } catch (er) {
+                    $.Oda.Log.error("$.Oda.App.BonitaBPM.submitTask : " + er.message);
+                    return null;
+                }
+            },
+            /**
+             * @returns {$.Oda.App.BonitaBPM}
+             */
+            goNextTask: function () {
+                try {
+                    var processId = "parentCaseId="+$.Oda.App.Controler.taskInfos.caseId;
+                    var input = { "f" : processId };
+                    var call = $.Oda.Interface.callRest($.Oda.Context.rest+"API/bpm/activity", {functionRetour : function(response){
+                        var url = $.Oda.Context.host + $.Oda.Context.appBonitaName;
+                        if(response.length>0){
+                            $.each( response, function( index, task ) {
+                                if((task.id !== $.Oda.App.Controler.taskId)&&(task.state==="ready")){
+                                    url = $.Oda.Context.host + $.Oda.Context.appBonitaName + "portal/form/taskInstance/" + task.id;
+                                    $.Oda.Context.window.location = url;
+                                }else{
+                                    if((task.id !== $.Oda.App.Controler.taskId)&&(task.state==="initializing")){
+                                        setTimeout(function(){
+                                            $.Oda.App.BonitaBPM.goNextTask();
+                                        }, 1000);
+                                    }else {
+                                        $.Oda.Context.window.location = url;
+                                    }
+                                }
+                            });
+                        }else{
+                            $.Oda.Context.window.location = url;
+                        }
+                    }}, input);
+
+                    return this;
+                } catch (er) {
+                    $.Oda.Log.error("$.Oda.App.BonitaBPM.goNextTask : " + er.message);
+                    return null;
+                }
             }
         },
 
@@ -178,29 +239,7 @@
                         $.Oda.Log.error("$.Oda.App.Controler.Home.startForm : " + er.message);
                         return null;
                     }
-                },
-                /**
-                 * @param {Object} p_params
-                 * @param p_params.id
-                 * @returns {$.Oda.App.Controler.Home}
-                 */
-                submitTask : function (p_params) {
-                    try {
-                        var url = $.Oda.Context.rest+"API/bpm/userTask/"+$.Oda.App.Controler.taskId+"/execution";
-                        var call = $.Oda.Interface.callRest(url, {
-                            type : 'POST',
-                            contentType: "application/json",
-                            functionRetour : function(response){
-                                $.Oda.Log.trace(response);
-                                $.Oda.window.location = $.Oda.Context.host;
-                            }
-                        }, JSON.stringify($.Oda.App.Controler.formOutput));
-                        return this;
-                    } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controler.Home.submitTask : " + er.message);
-                        return null;
-                    }
-                },
+                }
             }
         }
     };
