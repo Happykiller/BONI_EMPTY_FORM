@@ -1,0 +1,38 @@
+{
+  "name": "Oda",
+  "main": "dist/Oda.js",
+  "license": "MIT",
+  "homepage": "https://github.com/Happykiller/ODA_FW/",
+  "authors": [
+    "Fabrice Rosito <fabrice.rosito@gmail.com>"
+  ],
+  "description": "Client for the full framework Oda",
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "qunit": "latest"
+  },
+  "dependencies": {
+    "bootstrap": "latest",
+    "datatables": "latest",
+    "highcharts-release": "latest",
+    "ckeditor": "latest",
+    "lz-string": "latest"
+  },
+  "keywords": [
+    "oda",
+    "javascript",
+    "library"
+  ],
+  "_release": "361af2244c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "361af2244cccd77f7317bfcd5f553cd6fa536c64"
+  },
+  "_source": "git://github.com/Happykiller/ODA_FW_CLIENT.git",
+  "_target": "*",
+  "_originalSource": "Oda"
+}

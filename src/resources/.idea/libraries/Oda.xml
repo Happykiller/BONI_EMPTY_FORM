@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Oda" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/bower_components/Oda/dist/Oda.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/bower_components/Oda/dist/Oda.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

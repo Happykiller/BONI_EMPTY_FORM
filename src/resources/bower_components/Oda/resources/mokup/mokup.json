@@ -1,0 +1,40 @@
+[
+  {
+    "interface" : "getParam.php",
+    "value" : [
+      {
+        "args" : {
+          "param_name" : "maintenance"
+        },
+        "return" : {"strErreur":"","data":{"leParametre":{"id":"2","param_name":"maintenance","param_type":"int","param_value":"0"}},"statut":5}
+      }
+    ]
+  },
+  {
+    "interface" : "addStat.php",
+    "value"  : [
+      {
+        "args" : "default",
+        "return" : {"strErreur":"","data":{"resultatInsert":"42"},"statut":5}
+      }
+    ]
+  },
+  {
+    "interface" : "getMessagesToDisplay.php",
+    "value"  : [
+      {
+        "args" : "default",
+        "return" : {"strErreur":"","data":{"messages":{"data":[],"nombre":0}},"statut":5}
+      }
+    ]
+  },
+  {
+    "interface" : "checkSession.php",
+    "value" : [
+      {
+        "args" : "default",
+        "return" : {"strErreur":"","data":1,"statut":5}
+      }
+    ]
+  }
+]

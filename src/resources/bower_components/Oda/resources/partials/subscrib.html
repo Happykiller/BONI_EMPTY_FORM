@@ -1,0 +1,116 @@
+<div class="container">
+    <h2 oda-label="oda-main.subscrib-title">Forgot</h2>
+    <p  oda-label="oda-main.subscrib-intro">Intro</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="fristName" oda-label="oda-main.subscrib-fristName">frist</label>
+                <input required="" type="text" class="form-control" oda-input-text="fristName" oda-input-text-tips="oda-main.subscrib-fristName-tips" oda-input-text-placeholder="oda-main.subscrib-fristName-placeholder" oda-input-text-check="Oda.Regexs:firstName">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="lastName" oda-label="oda-main.subscrib-lastName">last</label>
+                <input type="text" class="form-control" oda-input-text="lastName" oda-input-text-tips="oda-main.subscrib-lastName-tips" oda-input-text-placeholder="oda-main.subscrib-lastName-placeholder" oda-input-text-check="Oda.Regexs:lastName">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email" oda-label="oda-main.contact-mail">email</label>
+                <input type="text" class="form-control" oda-input-text="email" oda-input-text-tips="oda-main.contact-mail-tips" oda-input-text-placeholder="oda-main.contact-mail-placeholder" oda-input-text-check="Oda.Regexs:mail">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="mdp" oda-label="oda-main.password">pass</label>
+                <input type="password" class="form-control" oda-input-text="mdp" oda-input-text-tips="oda-main.io-pass-tips" oda-input-text-placeholder="oda-main.io-pass" oda-input-text-check="Oda.Regexs:pass">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <p>
+                <span oda-label="oda-main.login">login</span>&nbsp;<span id="login" style="font-weight: bold;"></span>
+            </p>
+        </div>
+        <div class="col-md-12">
+            <p>
+                <button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="creercompte();" class="btn btn-primary disabled" disabled>Submit</button >
+                <button type="button" oda-label="oda-main.bt-back" onclick="$.Oda.Router.navigateTo({'route':'home','args':[]});" class="btn btn-info">Back</button >
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $.Oda.Scope.Gardian.add({
+        id : "gardianSubscrib",
+        listElt : ["fristName", "lastName", "email", "mdp"],
+        function : function(params){
+            if(($("#fristName").data("isOk")) && ($("#lastName").data("isOk")) && ($("#email").data("isOk")) && ($("#mdp").data("isOk"))){
+
+                var first = $("#fristName").val().replace(/[^\w\s]/gi, '');
+                var last = $("#lastName").val().replace(/[^\w\s]/gi, '');
+
+                var login = (first.substring(0,2) + last.substring(0,2)).toUpperCase();
+                $("#login").text(login);
+                $("#submit").removeClass("disabled");
+                $("#submit").removeAttr("disabled");
+            }else{
+                $("#login").text("");
+                $("#submit").addClass("disabled");
+                $("#submit").attr("disabled", true);
+            }
+        }
+    });
+
+    function creercompte() {
+        try {
+            var p_nom = $("#fristName").val();
+            var p_prenom = $("#lastName").val();
+            var p_email = $("#email").val();
+            var p_motDePasse = $("#mdp").val();
+            var p_identifiant = $("#login").text();
+
+            var tabInput = { nom : p_nom, prenom : p_prenom, email : p_email, motDePasse : p_motDePasse, codeUtilisateur : p_identifiant };
+            var results = $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/addUtilisateur.php", {functionRetour : function(results){
+                var infoUser = results["data"]["infosUser"];
+
+                var contact_mail_administrateur = $.Oda.Interface.getParameter("contact_mail_administrateur");
+
+                var message_html = "";
+                message_html = "<html><head></head><body>";
+                message_html += "Bonjour "+p_prenom+",<br>";
+                message_html += "<br>";
+                message_html += "Votre compte a bien &eacute;t&eacute; cr&eacute;&eacute;.<br>";
+                message_html += "<br>";
+                message_html += "Pour rappel : <br>";
+                message_html += "- votre identifiant : "+infoUser["code_user"]+"<br>";
+                message_html += "- votre mot de passe : "+p_motDePasse+"<br>";
+                message_html += "<br>";
+                message_html += "Merci est rendez-vous <a href='"+$.Oda.Context.host+"'>ici</a><br>";
+                message_html += "<br>";
+                message_html += "L'&eacute;quipe<br>";
+                message_html += "</body></html>";
+
+                var paramsMail = {
+                    email_mails_dest : infoUser["mail"]+","
+                    ,email_mail_ori : contact_mail_administrateur
+                    , email_labelle_ori : "Service Mail ODA"
+                    , email_mail_reply : contact_mail_administrateur
+                    , email_labelle_reply : "Service Mail ODA"
+                    , email_mails_cache : contact_mail_administrateur
+                    , message_html : message_html
+                    , sujet : "[ODA]Création de compte réussi."
+                };
+
+                $.Oda.Interface.sendMail(paramsMail);
+
+                var strHtml = "F&eacute;licitation votre compte a bien &eacute;t&eacute; cr&eacute;&eacute; (N&deg;"+infoUser["id"]+", identifiant : "+infoUser["code_user"]+").";
+                $.Oda.Display.Notification.success(strHtml);
+
+                $.Oda.Router.navigateTo();
+            }}, tabInput);
+        } catch (er) {
+            $.Oda.Log.error("creercompte : " + er.message);
+        }
+    }
+</script>

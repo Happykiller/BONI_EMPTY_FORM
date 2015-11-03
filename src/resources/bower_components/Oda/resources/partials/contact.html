@@ -1,0 +1,39 @@
+<div class="container">
+    <h2 oda-label="oda-main.contact">Contact</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name" oda-label="oda-main.contact-name">Name :</label>
+                <input type="text" class="form-control" oda-input-text="name" oda-input-text-tips="oda-main.contact-name-tips" oda-input-text-placeholder="oda-main.contact-name-placeholder" oda-input-text-check="^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,}$">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="mail" oda-label="oda-main.contact-mail">Email :</label>
+                <input type="text" class="form-control" oda-input-text="mail" oda-input-text-tips="oda-main.contact-mail-tips" oda-input-text-placeholder="oda-main.contact-mail-placeholder" oda-input-text-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="msg" oda-label="oda-main.contact-msg">Message :</label>
+      <textarea class="form-control" rows="3" oda-input-text="msg" oda-input-text-tips="oda-main.contact-msg-tips" oda-input-text-placeholder="oda-main.contact-msg-placeholder" oda-input-text-check="^.{25,}$"></textarea>
+    </div>
+    <button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="$.Oda.Controler.Contact.contact($('#name').val(), $('#msg').val());" class="btn btn-primary disabled" disabled>Submit</button >
+</div>
+
+
+<script>
+    $.Oda.Scope.Gardian.add({
+        id : "gardianContact",
+        listElt : ["name", "mail", "msg"],
+        function : function(params){
+            if( ($("#name").data("isOk")) && ($("#mail").data("isOk")) && ($("#msg").data("isOk")) ){
+                $("#submit").removeClass("disabled");
+                $("#submit").removeAttr("disabled");
+            }else{
+                $("#submit").addClass("disabled");
+                $("#submit").attr("disabled", true);
+            }
+        }
+    });
+</script>

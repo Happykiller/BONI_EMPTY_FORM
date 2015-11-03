@@ -1,0 +1,8 @@
+config/config.js
+server/include/config.php
+/bower_components
+/bower_components/*
+/node_modules
+/node_modules/*
+/.idea
+/.idea/*

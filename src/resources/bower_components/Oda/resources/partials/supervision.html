@@ -1,0 +1,192 @@
+<div class="container">
+    <h2 oda-label="oda-supervision.title"></h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span oda-label="oda-supervision.metrics-interface"></span></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12" id="div_metrics_interface">
+                            <oda-loading></oda-loading>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span oda-label="oda-supervision.maintenance"></span></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12" id="div_maintenance">
+                            <oda-loading></oda-loading>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * chargerMetricsInterface
+     */
+    function chargerMetricsInterface(){
+        try {
+            $.Oda.Display.loading({elt : $('#div_metrics_interface')});
+            var tabInput = { };
+            var tabSetting = { functionRetour : retourMetricsInterface };
+            $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/getMetricsInterface.php", tabSetting, tabInput);
+        } catch (er) {
+            $.Oda.Log.error("chargerMetricsInterface : " + er.message);
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS AFFICHAGE
+    ///////////////////
+    /**
+     * retourMetricsInterface
+     *
+     * @param {array} p_retour
+     */
+    function retourMetricsInterface(json_retour){
+        try {
+            if(json_retour["strErreur"] == ""){
+                var strhtml = '<table width="60em" cellpadding="0" cellspacing="0" border="0" class="display" id="table_metrics_interface" style="width: 100%"></table>';
+                $('#div_metrics_interface').html(strhtml).trigger('create');
+
+                var objDataTable = $.Oda.Tooling.objDataTableFromJsonArray(json_retour["data"]["metrics"]["data"]);
+                var oTable = $('#table_metrics_interface').dataTable( {
+                    "sPaginationType": "full_numbers",
+                    "aaData": objDataTable.data,
+                    "aaSorting": [[2,'desc']],
+                    "aoColumns": [
+                        { sTitle: "Interface", sClass: "left", sWidth: "5em" },
+                        { sTitle: "Nb", sClass: "center", sWidth: "5em" },
+                        { sTitle: "Cost", sClass: "center", sWidth: "5em" },
+                        { sTitle: "average", sClass: "center", sWidth: "5em" },
+                        { sTitle: "maxTime", sClass: "center", sWidth: "5em" },
+                        { sTitle: "minTime", sClass: "center", sWidth: "5em" }
+                    ],
+                    aoColumnDefs: [
+                        {//Interface
+                            mRender: function ( data, type, row ) {
+                                var interface = row[0];
+                                var tab = interface.split("/");
+                                var name = tab[tab.length-1].replace(".php","");
+                                return name;
+                            },
+                            aTargets: [ 0 ]
+                        },
+                        {//Nb
+                            mRender: function ( data, type, row ) {
+                                return row[1];
+                            },
+                            aTargets: [ 1 ]
+                        },
+                        {//Cost
+                            mRender: function ( data, type, row ) {
+                                return row[2];
+                            },
+                            aTargets: [ 2 ]
+                        },
+                        {//average
+                            mRender: function ( data, type, row ) {
+                                return row[3];
+                            },
+                            aTargets: [ 3 ]
+                        },
+                        {//maxTime
+                            mRender: function ( data, type, row ) {
+                                return row[4];
+                            },
+                            aTargets: [ 4 ]
+                        },
+                        {//minTime
+                            mRender: function ( data, type, row ) {
+                                return row[5];
+                            },
+                            aTargets: [ 5 ]
+                        }
+                    ],
+                    "fnDrawCallback": function (oSettings) {
+                        $('#table_metrics_interface')
+                            .removeClass('display')
+                            .addClass('table table-striped table-bordered');
+                    }
+                });
+            } else{
+                $('#div_metrics_interface').html(json_retour["strErreur"]);
+            }
+        } catch (er) {
+            $.Oda.Log.error("retourMetricsInterface : " + er.message);
+        }
+    }
+
+    /**
+     * @name chargerMaintenance
+     * @desc Hello
+     * @return {type}
+     */
+    function chargerMaintenance(p_execution){
+        try {
+            $.Oda.Display.loading({elt : $('#div_maintenance')});
+
+            var tabSetting = { functionRetour : this.retourMaintenance};
+            var tabInput = { exec : p_execution };
+            $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/maintenanceDb.php", tabSetting, tabInput);
+
+            return true;
+        } catch (er) {
+            $.Oda.Log.error("chargerMaintenance : " + er.message);
+            return null;
+        }
+    }
+
+    /**
+     * @name retourMaintenance
+     * @param {json} p_retour
+     */
+    function retourMaintenance(p_retour){
+        try {
+            var myReturn = true;
+
+            if(p_retour["strErreur"] == ""){
+                var strhtml = "Volume des tables syst&egrave;mes : <br>";
+                var datas = p_retour["data"]["resultat"]["data"];
+                for (var indice in datas){
+                    strhtml += "- Nombre de ligne dans '"+datas[indice]["table"]+ "' : " +datas[indice]["nb"]+ "<br>";
+                }
+
+                if(p_retour["data"]["exec"] == "true"){
+                    strhtml += '<br>R&eacute;sultat de la purge : <br>';
+                    var datas = p_retour["data"]["purges"];
+                    for (var indice in datas){
+                        strhtml += "- Purge dans '"+datas[indice]["table"]+ "', statut : " +datas[indice]["statut"]+ " (Nb lignes : "+datas[indice]["nb"]+")<br>";
+                    }
+                }
+
+                strhtml += '<button type="button" onclick="chargerMaintenance(true);" class="btn btn-danger" oda-submit="bt_valider"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> '+ $.Oda.I8n.get('oda-supervision','purge')+'</button>';
+
+                $('#div_maintenance').html(strhtml);
+            } else{
+                $.Oda.Display.Notification.error(p_retour["strErreur"]);
+            }
+
+            return myReturn;
+        } catch (er) {
+            $.Oda.Log.error("retourMaintenance : " + er.message);
+            return null;
+        }
+    }
+
+    chargerMetricsInterface();
+    chargerMaintenance(false);
+</script>
+
+<style>
+
+</style>

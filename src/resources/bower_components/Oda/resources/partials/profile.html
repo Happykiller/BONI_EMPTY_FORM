@@ -1,0 +1,228 @@
+<div class="container">
+    <h2 oda-label="oda-main.profile-title">profile</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading" oda-label="oda-main.profile-infos">infos</div>
+                <div id="div_infos" class="panel-body">
+                    <oda-loading></oda-loading>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    chargerInformations();
+
+    /**
+     * chargerInformations
+     */
+    function chargerInformations(){
+        try {
+            var retour = true;
+
+            var tabSetting = { "functionRetour" : retourInformations };
+            var tabInput = { "code_user" : $.Oda.Session.code_user, "profile" : $.Oda.Session.userInfo.profile };
+            var retour = $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/getDetailsUser.php", tabSetting, tabInput);
+
+            return retour;
+        } catch (er) {
+            $.Oda.Log.error("chargerInformations : " + er.message);
+            return null;
+        }
+    }
+
+    /**
+     * retourInformations
+     *
+     * @param {object} p_retour
+     */
+    function retourInformations(p_retour){
+        try {
+            if(p_retour["strErreur"] === ""){
+                var mail = p_retour["data"]["detailsUser"]["mail"];
+                var code_user = p_retour["data"]["detailsUser"]["code_user"];
+                var nom = p_retour["data"]["detailsUser"]["nom"];
+                var prenom = p_retour["data"]["detailsUser"]["prenom"];
+                var password = p_retour["data"]["detailsUser"]["password"];
+                var langue = p_retour["data"]["detailsUser"]["langue"];
+
+                var strhtml = '<table class="table table-hover">';
+                strhtml += '<tr>';
+                strhtml += '<td>Code utilisateur :</td>';
+                strhtml += '<td><label id="code_user">'+code_user+'</label></td>';
+                strhtml += '<td></td>';
+                strhtml += '</tr>';
+                strhtml += '<tr>';
+                strhtml += '<td>Mot de passe :</td>';
+                strhtml += '<td></td>';
+                strhtml += '<td> <button type="button" class="btn btn-default" aria-label="Left Align" id="bt_ch-pass" title="Mise &agrave; jour du mot de passe" onclick="updateChamps(this);"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></td>';
+                strhtml += '</tr>';
+                strhtml += '<tr>';
+                strhtml += '<td>Nom :</td>';
+                strhtml += '<td><label id="lab_nom">'+nom+'</label></td>';
+                strhtml += '<td> <button type="button" class="btn btn-default" aria-label="Left Align" id="bt_ch-nom" title="Mise &agrave; jour du nome" onclick="updateChamps(this);"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></td>';
+                strhtml += '</tr>';
+                strhtml += '<tr>';
+                strhtml += '<td>Pr&eacute;nom :</td>';
+                strhtml += '<td><label id="lab_prenom">'+prenom+'</label></td>';
+                strhtml += '<td> <button type="button" class="btn btn-default" aria-label="Left Align" id="bt_ch-prenom" title="Mise &agrave; jour du pr&eacute;nom" onclick="updateChamps(this);"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></td>';
+                strhtml += '</tr>';
+                strhtml += '<tr>';
+                strhtml += '<td>E-mail :</td>';
+                strhtml += '<td><label id="lab_mail">'+mail+'</label></td>';
+                strhtml += '<td> <button type="button" class="btn btn-default" aria-label="Left Align" id="bt_ch-mail" title="Mise &agrave; jour de l\'eMail" onclick="updateChamps(this);"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></td>';
+                strhtml += '</tr>';
+                strhtml += '<tr>';
+                strhtml += '<td>Langue :</td>';
+                strhtml += '<td><label id="lab_langue">'+langue+'</label></td>';
+                strhtml += '<td> <button type="button" class="btn btn-default" aria-label="Left Align" id="bt_ch-langue" title="Mise &agrave; jour de la langue" onclick="updateChamps(this);"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></td>';
+                strhtml += '</tr>';
+                strhtml += '<tr>';
+                strhtml += '<td>Avatar :</td>';
+                strhtml += '<td><div id="img_avatar"></div></td>';
+                strhtml += '<td><div class="fileUpload btn btn-primary"><span class="glyphicon glyphicon-share" aria-hidden="true"></span><input type="file" class="upload" onchange="$.Oda.Controler.Profile.setAvatar({elt : this});" id="bt_avatar" /></div></td>';
+                strhtml += '</tr>';
+                strhtml += "</table>";
+                $('#div_infos').html(strhtml);
+                $.Oda.Display.Scene.avatar({callback : function(data){$("#img_avatar").html('<img src="'+data.src+'" alt="Savatar" height="42" width="42">');}});
+            } else{
+                $.Oda.Notification.danger("Erreur : "+p_retour["strErreur"]);
+            }
+        } catch (er) {
+            $.Oda.Log.error("retourInformations : " + er.message);
+        }
+    }
+
+    /**
+     * updateChamps
+     * @param {type} p_obj
+     */
+    function updateChamps(p_obj){
+        try {
+            var label = "";
+            var details = "";
+            var footer = "";
+
+            details += '<div data-role="fieldcontain">';
+            details += '<label for="input_old_password">Mot de passe actuel :</label>';
+            details += '<input class="form-control" type="password" name="input_old_password" id="input_old_password" value="" />';
+            details += '</div>';
+
+            switch (p_obj.id)
+            {
+                case "bt_ch-pass":
+                    label = "Mise &agrave; jour du mot de passe";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_password">Nouveau mot de passe :</label>';
+                    details += '<input class="form-control" type="text" name="input_password" id="input_password" value="" />';
+                    details += '</div>';
+                    footer += '<a class="btn btn-info" id="bt_soumettreChange" onclick="soumettreChange(\'password\');" href="#" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                    break;
+                case "bt_ch-nom":
+                    label = "Mise &agrave; jour du nom";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_nom">Nouveau nom :</label>';
+                    details += '<input class="form-control" type="text" name="input_nom" id="input_nom" value="" />';
+                    details += '</div>';
+                    footer += '<a class="btn btn-info" id="bt_soumettreChange" onclick="soumettreChange(\'nom\');" href="#" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                    break;
+                case "bt_ch-prenom":
+                    label = "Mise &agrave; jour du prenom";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_prenom">Nouveau pr&eacute;nom :</label>';
+                    details += '<input class="form-control" type="text" name="input_prenom" id="input_prenom" value="" />';
+                    details += '</div>';
+                    footer += '<a class="btn btn-info" id="bt_soumettreChange" onclick="soumettreChange(\'prenom\');" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                    break;
+                case "bt_ch-mail":
+                    label = "Mise &agrave; jour du eMail";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_mail">Nouveau eMail :</label>';
+                    details += '<input class="form-control" type="email" name="input_mail" id="input_mail" value="" />';
+                    details += '</div>';
+                    footer += '<a class="btn btn-info" id="bt_soumettreChange" onclick="soumettreChange(\'mail\');" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                    break;
+                case "bt_ch-langue":
+                    label = "Mise &agrave; jour de la langue";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_langue">Choix langue :</label>';
+                    details += '<select id="input_langue" class="form-control">';
+                    details += '<option value="fr">Fran&ccedil;ais</option>';
+                    details += '<option value="en">English</option>';
+                    details += '</select>';
+                    details += '</div>';
+                    footer += '<a class="btn btn-info" id="bt_soumettreChange" onclick="soumettreChange(\'langue\');" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                    break;
+            }
+            $.Oda.Display.Popup.open({"label" : label, "details" : details, "footer" : footer});
+        } catch (er) {
+            $.Oda.Log.error("updateChamps : " + er.message);
+        }
+    }
+
+    /**
+     * soumettreChange
+     * @param {string} p_champs
+     */
+    function soumettreChange(p_champs){
+        try {
+            var mdp = $('#input_old_password').val();
+            var value = $('#input_'+p_champs).val();
+            var tabInput = { "code_user" : $.Oda.Session.code_user, "mdp" : mdp, "champs" : p_champs, "value" : value };
+            var retour = $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/setChangeProfile.php", {}, tabInput);
+
+            if(retour["strErreur"] == ""){
+                $('#lab_'+p_champs).html(value);
+                $('#input_old_password').val("");
+                $('#input_'+p_champs).val("");
+                $('#oda-popup').modal("hide");
+
+                var tabInput = {
+                    code_user : $.Oda.Session.code_user
+                };
+                var retour = $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/getAuthInfo.php", {}, tabInput);
+                if(retour.strErreur === ""){
+                    var userInfo = {
+                        "locale" : retour.data.resultat.langue
+                        , "firstName" : retour.data.resultat.nom
+                        , "lastName" : retour.data.resultat.prenom
+                        , "mail" : retour.data.resultat.mail
+                        , "profile" : retour.data.resultat.profile
+                        , "profileLabel" : retour.data.resultat.labelle
+                        , "showTooltip" : retour.data.resultat.montrer_aide_ihm
+                    };
+                    $.Oda.Session.userInfo = userInfo;
+                    $.Oda.Storage.set("ODA-SESSION",$.Oda.Session,43200);
+                }else{
+                    $.Oda.Display.Notification.error(retour["strErreur"]);
+                }
+
+                $.Oda.Display.Notification.success("Mise &agrave; jour r&eacute;ussi");
+            }else{
+                $.Oda.Display.Notification.error(retour["strErreur"]);
+            }
+        } catch (er) {
+            $.Oda.Log.error("soumettreChange : " + er.message);
+        }
+    }
+</script>
+
+<style>
+    .fileUpload {
+        position: relative;
+        overflow: hidden;
+    }
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+</style>

@@ -1,0 +1,19 @@
+{
+	"name": "myApp",
+	"version": "x.y.z",
+	"description": "An application client with Oda",
+	"main": "gulpfile.js",
+	"license": "MIT",
+  "dependencies": {
+    "gulp": "*",
+    "gulp-bower": "*",
+    "gulp-connect": "*",
+    "gulp-jshint": "*",
+    "gulp-open": "*",
+    "gulp-plumber": "*",
+    "gulp-uglify": "*",
+    "gulp-rename": "*",
+    "gulp-replace" : "*",
+    "gulp-param" : "*"
+  }
+}

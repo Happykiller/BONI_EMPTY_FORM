@@ -1,0 +1,161 @@
+<div class="container">
+    <h2 oda-label="oda-stats.title"></h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="div_activityByUser" class="panel-body">
+                <oda-loading></oda-loading>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="div_activityByPage" class="panel-body">
+                <oda-loading></oda-loading>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    /**
+     * afficherActivite
+     */
+    function afficherActivite() {
+        try {
+            var tabInput = {  };
+            var retour = $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/getUserActivite.php", {functionRetour : function(datas) {
+                if(datas["strErreur"] === ""){
+                    var nombre = datas["data"]["resultat"]['nombre'];
+                    var datas = datas["data"]["resultat"]["data"];
+
+                    var pieDatas = new Array();
+                    for (var indice in datas) {
+                        pieDatas[pieDatas.length] = {
+                            name : datas[indice]["code_user"],
+                            y : parseInt(datas[indice]["nombre"])
+                        };
+                    }
+
+                    $('#div_activityByUser').highcharts({
+                        chart: {
+                            type: 'pie',
+                            backgroundColor:'rgba(255, 255, 255, 0.1)'
+                        },
+                        title: {
+                            text: $.Oda.Tooling.decodeHtml($.Oda.I8n.get("oda-stats","activityByUser"))
+                        },
+                        subtitle :  {
+                            text : 'From : '+nombre
+                        },
+                        plotOptions: {
+                            pie: {
+                                shadow: true,
+                                center: ['50%', '50%']
+                            }
+                        },
+                        tooltip: {
+                            formatter: function() {
+                                var s;
+                                s = this.point.name +' : '+$.Oda.Tooling.arrondir(this.point.percentage,2)+"% ("+this.y+")";
+                                return s;
+                            }
+                        },
+                        series: [{
+                            name: 'Utilisateur',
+                            data: pieDatas,
+                            dataLabels: {
+                                formatter: function() {
+                                    var s;
+                                    if (this.point.percentage > 2) { // the pie chart
+                                        s = this.point.name +':'+$.Oda.Tooling.arrondir(this.point.percentage,2)+"%";
+                                    }
+                                    return s;
+                                }
+                            }
+                        }]
+                    });
+                }else{
+                    $.Oda.Display.Notification.error(datas["strErreur"]);
+                    $('#div_activityByUser').html("&nbsp;");
+                }
+            }}, tabInput);
+        } catch (er) {
+            $.Oda.Log.error("afficherActivite):" + er.message);
+        }
+    }
+
+    /**
+     * afficherPageActivite
+     */
+    function afficherPageActivite() {
+        try {
+            var tabInput = {  };
+            var retour = $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/getPageActivite.php", {functionRetour : function(datas) {
+                if(datas["strErreur"] === ""){
+                    var nombre = datas["data"]["resultat"]['nombre'];
+                    var datas = datas["data"]["resultat"]["data"];
+
+                    var pieDatas = new Array();
+                    for (var indice in datas) {
+                        var route = datas[indice]["page"];
+                        route = route.replace("api_page_","");
+                        route = route.replace("page_","");
+                        route = route.replace(".html","");
+
+                        pieDatas[pieDatas.length] = {
+                            name : route
+                            , y : parseInt(datas[indice]["nombre"])
+                        };
+                    }
+
+                    $('#div_activityByPage').highcharts({
+                        chart: {
+                            type: 'pie',
+                            backgroundColor:'rgba(255, 255, 255, 0.1)'
+                        },
+                        title: {
+                            text: $.Oda.Tooling.decodeHtml($.Oda.I8n.get("oda-stats","activityByPage"))
+                        },
+                        subtitle :  {
+                            text : 'From : '+nombre
+                        },
+                        plotOptions: {
+                            pie: {
+                                shadow: true,
+                                center: ['50%', '50%']
+                            }
+                        },
+                        tooltip: {
+                            formatter: function() {
+                                var s;
+                                s = this.point.name +' : '+$.Oda.Tooling.arrondir(this.point.percentage,2)+"% ("+this.y+")";
+                                return s;
+                            }
+                        },
+                        series: [{
+                            name: 'Page',
+                            data: pieDatas,
+                            dataLabels: {
+                                formatter: function() {
+                                    var s;
+                                    if (this.point.percentage > 2) { // the pie chart
+                                        s = this.point.name +':'+$.Oda.Tooling.arrondir(this.point.percentage,2)+"%";
+                                    }
+                                    return s;
+                                }
+                            }
+                        }]
+                    });
+                }else{
+                    $.Oda.Display.Notification.error(datas["strErreur"]);
+                    $('#div_activityByPage').html("&nbsp;");
+                }
+            }}, tabInput);
+        }
+        catch (er) {
+            $.Oda.Log.error("afficherPageActivite):" + er.message);
+        }
+    }	
+    
+    afficherActivite();
+    afficherPageActivite();
+</script>

@@ -1,0 +1,28 @@
+{
+  "name": "Oda",
+  "version": "0.9.150711",
+  "main": "dist/Oda.js",
+  "license": "MIT",
+  "homepage": "https://github.com/Happykiller/ODA_FW/",
+  "authors": ["Fabrice Rosito <fabrice.rosito@gmail.com>"],
+  "description": "Client for the full framework Oda",
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "qunit": "latest"
+  },
+  "dependencies": {
+    "bootstrap" : "latest",
+    "datatables" : "latest",
+    "highcharts-release" : "latest",
+    "ckeditor" : "latest",
+    "lz-string" : "latest"
+  },
+  "keywords": [
+    "oda",
+    "javascript",
+    "library"
+  ]
+}

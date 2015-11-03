@@ -1,0 +1,33 @@
+<div class="container">
+    <h2 oda-label="oda-main.authentification">Authentification</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="login" oda-label="oda-main.login">Login :</label>
+                <input required type="text" class="form-control" oda-input-text="login" oda-input-text-tips="oda-main.io-login-tips" oda-input-text-placeholder="oda-main.io-login" oda-input-text-check="Oda.Regexs:login">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="mdp" oda-label="oda-main.password">Password :</label>
+                <input required type="password" class="form-control" oda-input-text="mdp" oda-input-text-tips="oda-main.io-pass-tips" oda-input-text-placeholder="oda-main.io-pass" oda-input-text-check="Oda.Regexs:pass">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <p>
+                <button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="$.Oda.Controler.Auth.goIn();" class="btn btn-primary disabled" disabled>Submit</button >
+                <button type="button" oda-label="oda-main.bt-forgot" onclick="$.Oda.Router.navigateTo({'route':'forgot','args':[]});" class="btn btn-info">Forgot</button >
+                <button type="button" oda-label="oda-main.bt-subscrib" onclick="$.Oda.Router.navigateTo({'route':'subscrib','args':[]});" class="btn btn-info">Subscrib</button >
+            </p>
+        </div>
+        <div class="col-md-12">
+            <p id="google">
+                &nbsp;
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $.Oda.Controler.Auth.start();
+</script>

@@ -1,0 +1,90 @@
+<div class="container">
+    <h2 oda-label="oda-main.forgot-title">Forgot</h2>
+    <p  oda-label="oda-main.forgot-intro">Veuiller remplir les champs possibles pour vous retrouver :</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="login" oda-label="oda-main.login">Login :</label>
+                <input type="text" class="form-control" oda-input-text="login" oda-input-text-tips="oda-main.io-login-tips" oda-input-text-placeholder="oda-main.io-login" oda-input-text-check="^[a-zA-Z0-9]{3,}$">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email" oda-label="oda-main.contact-mail">Email :</label>
+                <input type="text" class="form-control" oda-input-text="email" oda-input-text-tips="oda-main.contact-mail-tips" oda-input-text-placeholder="oda-main.contact-mail-placeholder" oda-input-text-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <p>
+                <button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="recupCompte();" class="btn btn-primary disabled" disabled>Submit</button >
+                <button type="button" oda-label="oda-main.bt-back" onclick="$.Oda.Router.navigateTo({'route':'home','args':[]});" class="btn btn-info">Back</button >
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $.Oda.Scope.Gardian.add({
+        id : "gardianContact",
+        listElt : ["login", "email"],
+        function : function(params){
+            if( ($("#login").data("isOk")) || ($("#email").data("isOk")) ){
+                $("#submit").removeClass("disabled");
+                $("#submit").removeAttr("disabled");
+            }else{
+                $("#submit").addClass("disabled");
+                $("#submit").attr("disabled", true);
+            }
+        }
+    });
+
+    function recupCompte() {
+        try {
+            var p_identifiant = $("#login").val();
+            var p_email = $("#email").val();
+
+            var tabInput = { identifiant : p_identifiant, email : p_email};
+            var results = $.Oda.Interface.callRest($.Oda.Context.rest+"vendor/happykiller/oda/resources/phpsql/getRecupUtilisateur.php", {functionRetour : function(results){
+                for(var indice in results["data"]["resultat"]["data"]){
+                    var compte = results["data"]["resultat"]["data"][indice];
+
+                    var contact_mail_administrateur = $.Oda.Interface.getParameter("contact_mail_administrateur");
+
+                    var message_html = "";
+                    message_html = "<html><head></head><body>";
+                    message_html += "Bonjour "+compte["prenom"]+",<br>";
+                    message_html += "<br>";
+                    message_html += "Voici les informations de votre compte.<br>";
+                    message_html += "<br>";
+                    message_html += "Pour rappel : <br>";
+                    message_html += "- votre identifiant : "+compte["code_user"]+"<br>";
+                    message_html += "- votre mot de passe : "+compte["password"]+"<br>";
+                    message_html += "<br>";
+                    message_html += "Merci et rendez-vous <a href='"+$.Oda.Context.host+"'>ici</a><br>";
+                    message_html += "<br>";
+                    message_html += "L'&eacute;quipe<br>";
+                    message_html += "</body></html>";
+
+                    var paramsMail = {
+                        email_mails_dest : compte["mail"]+","
+                        ,email_mail_ori : contact_mail_administrateur
+                        , email_labelle_ori : "Service Mail ODA"
+                        , email_mail_reply : contact_mail_administrateur
+                        , email_labelle_reply : "Service Mail ODA"
+                        , email_mails_cache : contact_mail_administrateur
+                        , message_html : message_html
+                        , sujet : "[ODA]Récupération de votre compte."
+                    };
+
+                    $.Oda.Interface.sendMail(paramsMail);
+
+                    var strHtml = "F&eacute;licitation un mail vous a &eacute;t&eacute; envoy&eacute; &agrave; l'adresse : "+compte["mail"];
+                    $.Oda.Display.Notification.success(strHtml);
+                }
+            }}, tabInput);
+            $.Oda.Router.navigateTo();
+        } catch (er) {
+            $.Oda.Log.error("recupCompte : " + er.message);
+        }
+    }
+</script>

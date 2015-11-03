@@ -1,0 +1,187 @@
+[
+    {
+        "groupName" : "oda-main"
+        , "fr" : {
+            "authentification" : "Authentification" 
+            , "login" : "Indentifiant :"
+            , "password" : "Mot de passe :"
+            , "io-login" : "Entrer votre identifiant"
+            , "io-pass" : "Entrer votre mot de passe"
+            , "io-login-tips" : "Au moins 3 lettres"
+            , "io-pass-tips" : "Au moins 4 lettres"
+            , "bt-submit" : "Soumettre"
+            , "logout" : "Quitter"
+            , "profile" : "Mon profil"
+            , "contact" : "Contactez-nous"
+            , "contact-name" : "Votre nom :"
+            , "contact-name-tips" : "Au moins 3 lettres"
+            , "contact-name-placeholder" : "Votre nom ici"
+            , "contact-mail" : "Votre E-mail :"
+            , "contact-mail-tips" : "Au format mail monmail@dom.ext"
+            , "contact-mail-placeholder" : "Votre e-mail ici"
+            , "contact-msg" : "Votre message :"
+            , "contact-msg-tips" : "Au moins 25 lettres"
+            , "contact-msg-placeholder" : "Votre message ici"
+            , "bt-forgot" : "Un Oublie ?"
+            , "bt-subscrib" : "S'inscrire"
+            , "bt-google" : "Entrer avec Google"
+            , "forgot-title" : "Oubli&eacute; ?"
+            , "404-title" : "Pas trouv&eacute;."
+            , "home-title" : "Accueil"
+            , "bt-back" : "Retour"
+            , "forgot-intro" : "Veuiller remplir les champs possibles pour vous retrouver :"
+            , "subscrib-title" : "Cr&eacute;er un compte"
+            , "subscrib-intro" : "Afin de cr&eacute;er un compte merci de fournir les informations utilies."
+            , "subscrib-fristName" : "Nom :"
+            , "subscrib-fristName-tips" : "Au moins 3 lettres"
+            , "subscrib-fristName-placeholder" : "Votre nom ici"
+            , "subscrib-lastName" : "Pr&eacute;nom :"
+            , "subscrib-lastName-tips" : "Au moins 3 lettres"
+            , "subscrib-lastName-placeholder" : "Votre nom ici"
+            , "profile-title" : "Mon Profil"
+            , "profile-infos" : "Mes informations"
+            , "bt-cancel" : "Annuler"
+            , "bt-edit" : "Editer"
+            , "bt-close" : "Fermer"
+            , "select-default" : "Choisir une option"
+        }
+        , "en" : {
+            "authentification" : "Authentification" 
+            , "login" : "Login:"
+            , "password" : "Password :"
+            , "io-login" : "Entrer your login"
+            , "io-pass" : "Entrer your password"
+            , "io-login-tips" : "More than 3 letters"
+            , "io-pass-tips" : "More than 4 letters"
+            , "bt-submit" : "Submit"
+            , "logout" : "Logout"
+            , "profile" : "Your profile"
+            , "contact" : "Contact us"
+            , "contact-name" : "Your name :"
+            , "contact-name-tips" : "More than 3 letters"
+            , "contact-name-placeholder" : "Your name here"
+            , "contact-mail" : "Your Email : "
+            , "contact-mail-tips" : "Format mail monmail@dom.ext"
+            , "contact-mail-placeholder" : "Your email here"
+            , "contact-msg" : "Your message :"
+            , "contact-msg-tips" : "More than 25 letters"
+            , "contact-msg-placeholder" : "Your message here :"
+            , "bt-forgot" : "Forgoten ?"
+            , "bt-subscrib" : "Subscrib"
+            , "bt-google" : "Enter with Google"
+            , "forgot-title" : "Forgot ?"
+            , "404-title" : "Not found."
+            , "home-title" : "Home"
+            , "bt-back" : "Back"
+            , "forgot-intro" : "Kindly fill the possible fields to find yourself :"
+            , "subscrib-title" : "Create an account"
+            , "subscrib-intro" : "Thank you to create an account to provide the useful information."
+            , "subscrib-fristName" : "First name :"
+            , "subscrib-fristName-tips" : "More than 3 letters"
+            , "subscrib-fristName-placeholder" : "Your first name here"
+            , "subscrib-lastName" : "Last Name :"
+            , "subscrib-lastName-tips" : "More than 3 letters"
+            , "subscrib-lastName-placeholder" : "Your last name here"
+            , "profile-title" : "My Profile"
+            , "profile-infos" : "My informations"
+            , "bt-cancel" : "Cancel"
+            , "bt-edit" : "Edit"
+            , "bt-close" : "Close"
+            , "select-default" : "Choose option"
+        }
+    }
+    , {
+        "groupName" : "oda-project"
+        , "fr" : {
+            "projectName" : "Mon Projet"
+            ,"userLabel" : "L'utillisateur"
+        }
+        , "en" : {
+            "projectName" : "My Project"
+            ,"userLabel" : "The user"
+        }
+    }
+    , {
+        "groupName" : "oda-stats"
+        , "fr" : {
+            "title" : "Les statistiques"
+            , "activityByPage" : "R&eacute;partition de l'activit&eacute; par page"
+            , "activityByUser" : "R&eacute;partition de l'activit&eacute; par utilisateur"
+        }
+        , "en" : {
+            "title" : "Statistics"
+            , "activityByPage" : "Activity by page"
+            , "activityByUser" : "Activity by user"
+        }
+    }
+    , {
+        "groupName" : "oda-admin"
+        , "fr" : {
+            "title" : "Administration",
+            "messages" : "Messages",
+            "users" : "Utilisateurs",
+            "list" : "Liste de diffusion"
+            , "edit_mail" : "Email : "
+            , "edit_desc" : "Description : "
+            , "edit_actif" : "Actif : "
+            , "input_rang" : "Rang : "
+            , "bt-create-new-message" : "Cr&eacute;er un message"
+        }
+        , "en" : {
+            "title" : "Administration",
+            "messages" : "Users",
+            "users" : "Utilisateurs",
+            "list" : "List of mail"
+            , "edit_mail" : "Email : "
+            , "edit_desc" : "Description : "
+            , "edit_actif" : "Active : "
+            , "input_rang" : "Profile : "
+        }
+    }
+    , {
+        "groupName" : "oda-supervision"
+        , "fr" : {
+            "title" : "Supervision"
+            , "metrics-interface" : "Métriques des interfaces"
+            , "maintenance" : "Maintenance"
+            , "purge" : "Lancer la purge"
+        }
+        , "en" : {
+            "title" : "Supervision"
+            , "metrics-interface" : "Metrics interfaces"
+            , "maintenance" : "Maintenance"
+            , "purge" : "Start purge"
+        }
+    },
+    {
+        "groupName" : "oda-datatables"
+        , "fr" : {
+            "lengthMenu": "Afficher _MENU_ enregistrement par page",
+            "zeroRecords": "Rien trouvé.",
+            "info": "Affiche page _PAGE_ sur _PAGES_",
+            "infoEmpty": "Pas d'enregristrement disponible",
+            "infoFiltered": "(Filtré depuis _MAX_ sur un total)",
+            "infoEmpty" : "Affiche 0 à 0 de 0 entrée",
+            "lengthMenu": "Voir _MENU_ entrées",
+            "search": "Rechercher :",
+            "first":      "Premier",
+            "last":       "Dernier",
+            "next":       "Suivant",
+            "previous":   "Précédent"
+        }
+        , "en" : {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "infoEmpty" : "Showing 0 to 0 of 0 entries",
+            "lengthMenu": "Show _MENU_ entries",
+            "search": "Search:",
+            "first":      "First",
+            "last":       "Last",
+            "next":       "Next",
+            "previous":   "Previous"
+        }
+    }
+]

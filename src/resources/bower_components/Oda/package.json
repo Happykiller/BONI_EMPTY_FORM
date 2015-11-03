@@ -1,0 +1,20 @@
+{
+	"name": "Oda",
+	"version": "0.9.150711",
+	"description": "Client for the full framework Oda",
+	"main": "gulpfile.js",
+	"author": "Fabrice Rosito <fabrice.rosito@gmail.com>",
+	"license": "MIT",
+  "dependencies": {
+    "gulp": "^3.8.7",
+    "gulp-bower": "0.0.6",
+    "gulp-connect": "^2.0.6",
+    "gulp-jshint": "^1.8.4",
+    "gulp-open": "^0.2.8",
+    "gulp-plumber": "^0.6.5",
+    "gulp-uglify": "*",
+    "gulp-rename": "*",
+    "gulp-replace" : "*",
+    "jshint-stylish" : "*"
+  }
+}
