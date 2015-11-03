@@ -1,0 +1,20 @@
+[
+  {
+    "groupName" : "boniSystem",
+    "fr" : {
+      "idMissingForForm" : "L'identifiant est manquant pour le formulaire de la t&acirc;che."
+    },
+    "en" : {
+      "idMissingForForm" : "id is missing for form of task."
+    }
+  },
+  {
+    "groupName" : "home",
+    "fr" : {
+      "title" : "Formulaire"
+    },
+    "en" : {
+      "title" : "Form"
+    }
+  }
+]
