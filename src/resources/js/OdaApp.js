@@ -54,7 +54,7 @@
                     }else{
                         $.Oda.Interface.callRest($.Oda.Context.rest+"API/bpm/userTask/"+$.Oda.App.Controler.taskId+"/context", {functionRetour : function(response){
                             $.Oda.App.Controler.context = response;
-                            $.Oda.Interface.callRest($.Oda.Context.rest+"API/bpm/task/"+$.Oda.App.Controler.taskId, {functionRetour : function(response){
+                            $.Oda.Interface.callRest($.Oda.Context.rest+"API/bpm/humanTask/"+$.Oda.App.Controler.taskId, {functionRetour : function(response){
                                 $.Oda.App.Controler.taskInfos = response;
                                 $.Oda.Interface.callRest($.Oda.Context.rest+"API/bpm/process/"+$.Oda.App.Controler.taskInfos.processId, {functionRetour : function(response){
                                     $.Oda.App.Controler.processDefinition = response;
